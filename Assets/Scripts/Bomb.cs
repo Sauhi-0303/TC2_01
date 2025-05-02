@@ -15,21 +15,25 @@ public class Bomb : MonoBehaviour
     public BombType bombType; // 爆弾の種類
 
     private static Dictionary<BombType, int> bombCounts = new Dictionary<BombType, int>();
-
+    private void FixedUpdate()
+    {
+        //念のためZ軸位置が動かないように固定
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+    }
 
     void Start()
 
     {
 
-        if (!bombCounts.ContainsKey(bombType))
+        //if (!bombCounts.ContainsKey(bombType))
 
-        {
+        //{
 
-            bombCounts[bombType] = 0;
+        //    bombCounts[bombType] = 0;
 
-        }
+        //}
 
-        bombCounts[bombType]++;
+        //bombCounts[bombType]++;
 
         mainCamera = Camera.main;
 
@@ -41,7 +45,7 @@ public class Bomb : MonoBehaviour
 
     {
 
-        bombCounts[bombType]--;
+        //bombCounts[bombType]--;
 
     }
 
@@ -128,21 +132,21 @@ public class Bomb : MonoBehaviour
 
     {
 
-        if (Input.GetMouseButtonDown(0)) // 左クリック
+        //if (Input.GetMouseButtonDown(0)) // 左クリック
 
-        {
+        //{
 
-            SpawnBomb();
+        //    SpawnBomb();
 
-        }
+        //}
 
-        else if (Input.GetMouseButtonDown(1)) // 右クリック
+        //else if (Input.GetMouseButtonDown(1)) // 右クリック
 
-        {
+        //{
 
-            KeepBombOffScreen();
+        //    KeepBombOffScreen();
 
-        }
+        //}
 
     }
 

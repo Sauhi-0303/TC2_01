@@ -183,6 +183,7 @@ public class Player : MonoBehaviour
     //    //
     //    UpdateCoinText();
     //}
+
     private void Spawn()
     {
         //移動力をリセット
@@ -195,15 +196,17 @@ public class Player : MonoBehaviour
         //controller.enabled = true;
         Warp(spawnPoint.position);
     }
+
     //ワープ
-    public void Warp(Vector3 position)
-    {
-        //キャラクターコントローラー仕様時に直接位置を変更する場合は
-        //キャラクターコントローラーを無効化してから設定する必要がある
-        controller.enabled = false;
-        transform.position = position;
-        controller.enabled = true;
-    }
+    //public void Warp(Vector3 position)
+    //{
+    //    //キャラクターコントローラー仕様時に直接位置を変更する場合は
+    //    //キャラクターコントローラーを無効化してから設定する必要がある
+    //    controller.enabled = false;
+    //    transform.position = position;
+    //    controller.enabled = true;
+    //}
+
     //死亡処理
     public void Death()
     {
