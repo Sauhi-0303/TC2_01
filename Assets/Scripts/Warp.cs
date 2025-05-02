@@ -17,7 +17,7 @@ public class Warp : MonoBehaviour
         if(player!=null)
         {
             //
-            player.Warp(outPoint.position);
+            //player.Warp(outPoint.position);
         }
     }
     // Start is called before the first frame update

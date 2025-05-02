@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
     private int life = 5;
     [SerializeField]
     private float pushPower = 0.75f;//押す力
+    [SerializeField] private GameObject bombPrefab;
+    [SerializeField] private Transform bombSpawnPoint; // 爆弾を落とす位置
+    private int inventoryBombCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -141,7 +145,37 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(horizontalSpeed, verticalSpeed, 0);
         //移動処理
         controller.Move(move * Time.deltaTime);
+
+        // 左クリック：爆弾を落とす
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (inventoryBombCount > 0)
+            {
+                DropBomb();
+                inventoryBombCount--;
+            }
+        }
+
+        // 右クリック：インベントリに爆弾を追加
+        if (Input.GetMouseButtonDown(1))
+        {
+            KeepBomb();
+        }
     }
+
+    private void DropBomb()
+    {
+        Vector3 dropPosition = bombSpawnPoint != null ? bombSpawnPoint.position : transform.position + Vector3.down;
+        Instantiate(bombPrefab, dropPosition, Quaternion.identity);
+        Debug.Log("爆弾を落とした！");
+    }
+
+    private void KeepBomb()
+    {
+        inventoryBombCount++;
+        Debug.Log("爆弾をインベントリに追加。現在の所持数：" + inventoryBombCount);
+    }
+
     //重力処理
     //private void UpdateGravity()
     //{
@@ -194,7 +228,7 @@ public class Player : MonoBehaviour
         //controller.enabled = false;
         //transform.position = spawnPoint.position;
         //controller.enabled = true;
-        Warp(spawnPoint.position);
+        //Warp(spawnPoint.position);
     }
 
     //ワープ
