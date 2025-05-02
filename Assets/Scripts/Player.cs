@@ -34,9 +34,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Text lifeText;
     [SerializeField]
-    private int life=5;
+    private int life = 5;
     [SerializeField]
-    private float pushPower=0.75f;//押す力
+    private float pushPower = 0.75f;//押す力
+    [SerializeField]
+    private GameObject bombPrefab;  
+    private List<GameObject> inventory = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +75,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         //念のためZ軸位置が動かないように固定
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0); 
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
     //進行方向更新処理
     private void UpdateDirection()
@@ -102,7 +105,7 @@ public class Player : MonoBehaviour
                 horizontalSpeed = Mathf.Sign(horizontalSpeed) * maxMoveSpeed;
             }
         }
-            
+
         //減速処理
         else
         {
@@ -141,6 +144,24 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(horizontalSpeed, verticalSpeed, 0);
         //移動処理
         controller.Move(move * Time.deltaTime);
+        if (Input.GetMouseButtonDown(0)) // 左クリック
+        {
+
+            //マウスの位置を取得
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10f; // カメラからの距離を設定
+            //ワールド座標に変換
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            // 爆弾を生成
+            Instantiate(bombPrefab, worldPos, Quaternion.identity);
+        }
+
+        if (Input.GetMouseButtonDown(1)) // 右クリック：爆弾をキープ
+        {
+            // 爆弾を「インベントリに追加」：ここではプレハブを格納
+            inventory.Add(bombPrefab);
+            Debug.Log("爆弾をインベントリに追加しました。現在の数：" + inventory.Count);
+        }
     }
     //重力処理
     //private void UpdateGravity()
@@ -204,6 +225,8 @@ public class Player : MonoBehaviour
         transform.position = position;
         controller.enabled = true;
     }
+
+
     //死亡処理
     public void Death()
     {
@@ -216,7 +239,7 @@ public class Player : MonoBehaviour
         //
         UpdateLifeText();
         //スポーン
-        Spawn();
+            Spawn();
     }
     private void UpdateLifeText()
     {
@@ -230,7 +253,7 @@ public class Player : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         //
-        PushRigidbody(hit);
+        //PushRigidbody(hit);
         //
         CeilingCheck(hit);
         //
@@ -250,26 +273,26 @@ public class Player : MonoBehaviour
         }
     }
     //
-    private void PushRigidbody(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //
-        if(body==null||body.isKinematic)
-        {
-            return;
-        }
-        //
-        if(hit.moveDirection.y<-0.3f)
-        {
-            return;
-        }
-        //
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        Vector3 pushVelocity = pushDir * pushPower;
-        pushVelocity.y = body.velocity.y;
-        //
-        body.velocity = pushVelocity;
-    }
+    //private void PushRigidbody(ControllerColliderHit hit)
+    //{
+    //    Rigidbody body = hit.collider.attachedRigidbody;
+    //    //
+    //    if(body==null||body.isKinematic)
+    //    {
+    //        return;
+    //    }
+    //    //
+    //    if(hit.moveDirection.y<-0.3f)
+    //    {
+    //        return;
+    //    }
+    //    //
+    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+    //    Vector3 pushVelocity = pushDir * pushPower;
+    //    pushVelocity.y = body.velocity.y;
+    //    //
+    //    body.velocity = pushVelocity;
+    //}
     //デストリガーとの衝突処理
     //private void CollisionDeathTrigger(ControllerColliderHit hit)
     //{
