@@ -34,9 +34,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Text lifeText;
     [SerializeField]
-    private int life=5;
+    private int life = 5;
     [SerializeField]
-    private float pushPower=0.75f;//押す力
+    private float pushPower = 0.75f;//押す力
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         //念のためZ軸位置が動かないように固定
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0); 
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
     //進行方向更新処理
     private void UpdateDirection()
@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
                 horizontalSpeed = Mathf.Sign(horizontalSpeed) * maxMoveSpeed;
             }
         }
-            
+
         //減速処理
         else
         {
@@ -234,16 +234,16 @@ public class Player : MonoBehaviour
         //
         CeilingCheck(hit);
         //
-       //CollisionDeathTrigger(hit);
+        //CollisionDeathTrigger(hit);
     }
     //
     private void CeilingCheck(ControllerColliderHit hit)
     {
         //
-        if(hit.normal.y<-0.8f)
+        if (hit.normal.y < -0.8f)
         {
             //
-            if(verticalSpeed>0.0f)
+            if (verticalSpeed > 0.0f)
             {
                 verticalSpeed = 0.0f;
             }
@@ -254,12 +254,12 @@ public class Player : MonoBehaviour
     {
         Rigidbody body = hit.collider.attachedRigidbody;
         //
-        if(body==null||body.isKinematic)
+        if (body == null || body.isKinematic)
         {
             return;
         }
         //
-        if(hit.moveDirection.y<-0.3f)
+        if (hit.moveDirection.y < -0.3f)
         {
             return;
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Hako : MonoBehaviour
 {
     public int durability = 1000;
+    private static List<Hako> allHako = new List<Hako>();
 
     // 爆弾によるダメージを受ける関数
     public void TakeDamage(int damage)
@@ -17,6 +18,21 @@ public class Hako : MonoBehaviour
             Destroy(gameObject);
             Debug.Log("箱が壊れました！");
         }
+    }
+
+    void Awake()
+    {
+        allHako.Add(this);
+    }
+
+    void OnDestroy()
+    {
+        allHako.Remove(this);
+    }
+
+    public static bool IsAllHakoDestroyed()
+    {
+        return allHako.Count == 0;
     }
 
     void Explode()
