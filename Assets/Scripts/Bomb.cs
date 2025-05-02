@@ -147,3 +147,7 @@ public class Bomb : MonoBehaviour
     }
 
 }
+
+public class BombType
+{
+}
