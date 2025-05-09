@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         //念のためZ軸位置が動かないように固定
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        transform.position = new Vector3(transform.position.x, 0, 0);
     }
     //進行方向更新処理
     private void UpdateDirection()
@@ -146,14 +146,10 @@ public class Player : MonoBehaviour
         //移動処理
         controller.Move(move * Time.deltaTime);
 
-        // 左クリック：爆弾を落とす
+        //左クリックでカーソル位置に爆弾を落とす
         if (Input.GetMouseButtonDown(0))
         {
-            if (inventoryBombCount > 0)
-            {
-                DropBomb();
-                inventoryBombCount--;
-            }
+            DropBomb();
         }
 
         // 右クリック：インベントリに爆弾を追加
@@ -267,7 +263,7 @@ public class Player : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         //
-        PushRigidbody(hit);
+        //PushRigidbody(hit);
         //
         CeilingCheck(hit);
         //
@@ -287,26 +283,26 @@ public class Player : MonoBehaviour
         }
     }
     //
-    private void PushRigidbody(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //
-        if (body == null || body.isKinematic)
-        {
-            return;
-        }
-        //
-        if (hit.moveDirection.y < -0.3f)
-        {
-            return;
-        }
-        //
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        Vector3 pushVelocity = pushDir * pushPower;
-        pushVelocity.y = body.velocity.y;
-        //
-        body.velocity = pushVelocity;
-    }
+    //private void PushRigidbody(ControllerColliderHit hit)
+    //{
+    //    Rigidbody body = hit.collider.attachedRigidbody;
+    //    //
+    //    if (body == null || body.isKinematic)
+    //    {
+    //        return;
+    //    }
+    //    //
+    //    if (hit.moveDirection.y < -0.3f)
+    //    {
+    //        return;
+    //    }
+    //    //
+    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+    //    Vector3 pushVelocity = pushDir * pushPower;
+    //    pushVelocity.y = body.velocity.y;
+    //    //
+    //    body.velocity = pushVelocity;
+    //}
     //デストリガーとの衝突処理
     //private void CollisionDeathTrigger(ControllerColliderHit hit)
     //{
