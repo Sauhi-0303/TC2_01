@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
             //水平軸入力情報から進行方向を設定
             Vector3 direction = new Vector3(horizontal, 0, 0);
             //進行方向に向くように回転設定
-            transform.rotation = Quaternion.LookRotation(direction);
+            //transform.rotation = Quaternion.LookRotation(direction);
             //加速量を計算
             float speed = horizontal * acceleration * Time.deltaTime;
             //空中に浮いている時は移動値を補正する
@@ -162,6 +162,7 @@ public class Player : MonoBehaviour
     private void DropBomb()
     {
         Vector3 dropPosition = bombSpawnPoint != null ? bombSpawnPoint.position : transform.position + Vector3.down;
+        dropPosition.y = -2.5f;
         Instantiate(bombPrefab, dropPosition, Quaternion.identity);
         Debug.Log("爆弾を落とした！");
     }
@@ -185,11 +186,11 @@ public class Player : MonoBehaviour
     //    {
     //        verticalSpeed -= gravity * Time.deltaTime;
     //    }
-    //    //垂直移動速度が最大落下速度を超えないように制限     
+    //    //垂直移動が最大落下速度を超えないように制限     
     //    verticalSpeed = Mathf.Max(verticalSpeed, -maxFallSpeed);
     //}
     //ジャンプ処理
-    //private void UpdateJump()
+    //private void UpdateJump()速度
     //{
     //    //地面に接地している状態でジャンプボタンを押すと垂直移動速度を設定する
     //    if (controller.isGrounded)
